@@ -7,6 +7,7 @@ app = Flask(__name__)
 def get_lucky_number():
     return random.randint(1, 100)
 
+
 def days_to_birthday(dob):
     today = date.today()
     dob = datetime.strptime(dob, "%Y-%m-%d").date()
