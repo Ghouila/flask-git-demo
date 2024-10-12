@@ -22,6 +22,11 @@ def calculate_age(dob):
     age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
     return age
 
+def is_birthday_today(dob):
+    today = date.today()
+    birth_date = datetime.strptime(dob, "%Y-%m-%d").date()
+    return (today.month, today.day) == (birth_date.month, birth_date.day)
+
 def get_zodiac_sign(dob):
     month, day = map(int, dob.split('-')[1:])
     zodiac_signs = [
@@ -42,8 +47,13 @@ def index():
         age = calculate_age(dob)
         zodiac = get_zodiac_sign(dob)
         days_to_bday = days_to_birthday(dob)
+        is_birthday = is_birthday_today(dob)
         lucky_number = get_lucky_number()
         message = f"Greetings, {name}! You're {age} years old with the zodiac sign {zodiac}. Your next birthday is in {days_to_bday} days. Your lucky number is {lucky_number}!"
+        if is_birthday:
+            message += "Happy Birthday!"
+        else:
+            message += f"There are {days_to_bday} days until your next birthday."
         return render_template('result.html', message=message)
     return render_template('index.html')
 
